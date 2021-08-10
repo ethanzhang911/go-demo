@@ -1,6 +1,7 @@
 package main
 
 import (
+	controllers "gitee.com/ethancheng/regular_demo/internal/pkg/controler"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -27,6 +28,10 @@ func bind(c *gin.Context) {
 	//} else {
 	//	c.String(200,"values is %v",person)
 	//}
+}
+
+func getvideo(c *gin.Context) {
+	c.String(200, "%s", "get")
 }
 
 func checkClientIp() gin.HandlerFunc {
@@ -102,6 +107,15 @@ func main() {
 	//	}
 	//	c.String(200,"%s",body)
 	//})
+
+	control := controllers.NewController()
+
+	group := r.Group("/videos")
+	group.GET("/", control.GetAll)
+	group.POST("/:id", control.Update)
+	group.POST("/", control.Create)
+
+	//
 
 	//bind参数
 

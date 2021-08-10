@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func handlerPing(w http.ResponseWriter, req *http.Request) {
@@ -13,14 +14,16 @@ func handlerPing(w http.ResponseWriter, req *http.Request) {
 		err := ctx.Err()
 		if err != nil {
 			fmt.Fprintf(w, "%s", "context收到")
+			fmt.Println(err)
+		} else {
+			fmt.Fprintf(w, "%s", "context收到")
 			fmt.Println("context收到")
 		}
+		return
+	case <-time.After(6 * time.Second):
+		fmt.Fprintf(w, "%s", "开始干活了")
+		return
 	}
-	//fmt.Fprintf(w, "done")
-	////body, _ := req.GetBody()
-	//getbody, _ := req.GetBody()
-	//body, _ := io.ReadAll(getbody)
-	//fmt.Fprintf(w, "%s\n", body)
 }
 func main() {
 	httpServer := &http.Server{
